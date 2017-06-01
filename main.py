@@ -11,7 +11,7 @@ class Circle():
         self.radius = radius
     
     def description(self):
-        return ("Center: (%f, %f)\tRadius:%f"%(self.center[0], self.center[1], self.radius))
+        return ("Center: (%f, %f)\tRadius:%.10f"%(self.center[0], self.center[1], self.radius))
 
 
 def sub_solution_r(m):
@@ -25,7 +25,6 @@ def sub_solution_r(m):
     elif m <= 5:
         r = 3 - 2 * math.sqrt(2)
         y = x = 1 - r
-        R.append(r)
         for i in range(0, 4):
             circles.append(Circle((x * sym_x[i], y * sym_y[i]), r))
         return circles
@@ -43,17 +42,17 @@ def sub_solution_r(m):
             k = int(k / 8) + 1
         pend_current = R[1]
         for i in range(1, k+1): 
-            r = ((1 - pend_current)/ (2 * (1+math.sqrt(R[i-1])))) ** 2
-            pend_current += 2 * math.sqrt(r * R[i-1])
+            r = ((1 - pend_current)/ (2 * (1+math.sqrt(R[i])))) ** 2
+            pend_current += 2 * math.sqrt(r * R[i])
             R.append(r)
             x = 1 - r
             y = 1 - R1 - pend_current
             for j in range(4):
                 circles.append(Circle((x * sym_x[j], y * sym_y[j]), r))
-                if 8*(i-1)+j+5+1>8:
+                if len(circles) == m:
                     break
                 circles.append(Circle((y * sym_y[j], x * sym_x[j]), r))
-                if 8*(i-1)+j+5>8:
+                if len(circles) == m:
                     break
         return circles
                 
@@ -62,7 +61,7 @@ def sub_solution_r(m):
 
 
 def main():
-    for circle in sub_solution_r(15):
+    for circle in sub_solution_r(26):
         print(circle.description())
 
 if __name__ == '__main__':
