@@ -25,7 +25,7 @@ class Circle():
 
 def valid(circle):
     
-    if (abs(circle.center[0]) + circle.radius > 1) || (abs(circle.center[1]) + circle.radius > 1):
+    if abs(circle.center[0]) + circle.radius > 1 or abs(circle.center[1]) + circle.radius > 1 :
         return False
     
     for tmpCircle in circleList:
