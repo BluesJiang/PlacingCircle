@@ -144,11 +144,11 @@ def main():
           )
     w.pack()
     for circle in circles:
-        point1 = circle.center[0] - circle.radius;
-        point2 = circle.center[1] - circle.radius;
-        point3 = circle.center[0] + circle.radius;
-        point4 = circle.center[1] + circle.radius;
-        w.create_oval(400 + 300 * point1, 400 + 300 * point2, 400 + 300 * point3, 400 + 300 * point4, fill = "gray");
+        point1 = circle.center[0] - circle.radius
+        point2 = circle.center[1] - circle.radius
+        point3 = circle.center[0] + circle.radius
+        point4 = circle.center[1] + circle.radius
+        w.create_oval(400 + 300 * point1, 400 + 300 * point2, 400 + 300 * point3, 400 + 300 * point4, fill = "gray")
  
     mainloop()
     
