@@ -5,7 +5,8 @@ import math
 import numpy as np
 from matplotlib import pyplot as plt
 
-circleList = []
+
+radius_sum = 0
 class Circle():
     center = (0, 0) 
     radius = 0
@@ -22,10 +23,10 @@ class Circle():
     def distance(circle1, circle2):
         return math.sqrt((circle1.center[0]-circle2.center[0])**2+(circle1.center[1]-circle2.center[1])**2)
     def copy(self):
-        return Circle(self.center, radius)
+        return Circle(self.center, self.radius)
 
 
-def valid(circle):
+def valid(circle, circleList):
     
     if abs(circle.center[0]) + circle.radius > 1 or abs(circle.center[1]) + circle.radius > 1 :
         return False
@@ -88,35 +89,35 @@ def sub_solution_r(m):
 
 
 def mathmatic_solution(m):
-    center_step = 0.001
+    circleList = []
+    radius_sum = 0
+    center_step = 0.01
     for i in range(0, m):
         circle = Circle((-1+center_step, -1+center_step), 0)
         maxcircle = circle.copy()
         while circle.center[0] < 1:
-            circle.center[0] += center_step
-            circle.center[1] = -1 + center_step
+            circle.center = (circle.center[0]+center_step,  -1 + center_step)
             while circle.center[1] < 1:
-                circle.center[1] += center_step
+                circle.center = (circle.center[0], circle.center[1]+center_step)
                 circle.radius = 0
                 radius_step = 0.1
                 while radius_step > 1e-5:
                     if circle.radius > maxcircle.radius:
                         maxcircle = circle.copy()
                     circle.radius += radius_step
-                    if not valid(circle):
+                    if not valid(circle, circleList):
                         circle.radius -= radius_step
                         radius_step /= 10
         if valid(maxcircle):
             circleList.append(maxcircle)
             radius_sum += maxcircle.radius**2
-
+    return circleList
 
 
 def main():
     rate = []
     for m in range(0, 100):
-        circles = sub_solution_r(m)
-        
+        circles = mathmatic_solution(10)
         total = sum([cir.calAria() for cir in circles ])
         rate.append(total/4*100)
     m = np.linspace(0,99,100)
