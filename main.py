@@ -18,6 +18,10 @@ class Circle():
     def description(self):
         return ("Center: (% f, % f)\tRadius:%.10f"%(self.center[0], self.center[1], self.radius))
 
+    def distance(circle1, circle2):
+        return math.sqrt((circle1.center[0]-circle2.center[0])**2+(circle1.center[1]-circle2.center[1])**2)
+    
+
 
 def sub_solution_r(m):
     circles = []
@@ -66,6 +70,8 @@ def sub_solution_r(m):
                     break
         return circles
                 
+
+
 
 
 
