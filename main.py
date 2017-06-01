@@ -3,6 +3,7 @@
 
 import math
 import numpy as np
+from pprint import pprint
 from matplotlib import pyplot as plt
 
 
@@ -88,39 +89,51 @@ def sub_solution_r(m):
                 
 
 
-def mathmatic_solution(m):
+def mathmatic_solution(m, pointList):
     circleList = []
     radius_sum = 0
     center_step = 0.01
-    for i in range(0, m):
-        circle = Circle((-1+center_step, -1+center_step), 0)
-        maxcircle = circle.copy()
-        while circle.center[0] < 1:
-            circle.center = (circle.center[0]+center_step,  -1 + center_step)
-            while circle.center[1] < 1:
-                circle.center = (circle.center[0], circle.center[1]+center_step)
-                circle.radius = 0
-                radius_step = 0.1
-                while radius_step > 1e-5:
-                    if circle.radius > maxcircle.radius:
-                        maxcircle = circle.copy()
-                    circle.radius += radius_step
-                    if not valid(circle, circleList):
-                        circle.radius -= radius_step
-                        radius_step /= 10
-        if valid(maxcircle):
+    if m >= 1:
+        circleList.append(Circle((0,0),1))
+        pointList = list(filter(lambda point: valid(Circle(point, 0), circleList) ,pointList))
+    for i in range(1, m):
+        maxcircle = Circle((0,0),0)
+        circle = 0
+        for point in pointList:
+            circle = Circle(point, 0)
+            radius_step = 0.1
+            while radius_step > 1e-5:
+                if circle.radius > maxcircle.radius:
+                    maxcircle = circle.copy()
+                circle.radius += radius_step
+                if not valid(circle, circleList):
+                    circle.radius -= radius_step
+                    radius_step /= 10
+        if valid(maxcircle, circleList):
             circleList.append(maxcircle)
             radius_sum += maxcircle.radius**2
+        pointList = list(filter(lambda point: valid(Circle(point, 0), circleList) ,pointList))
+
     return circleList
 
 
 def main():
     rate = []
-    for m in range(0, 100):
-        circles = mathmatic_solution(10)
+    pointStep = 0.1
+    point = (-1,-1)
+    
+    X = np.linspace(-1, 1, 201)
+    Y = np.linspace(-1, 1, 201)
+
+    for m in range(0, 20):
+        pointList = []
+        for i in X:
+            for j in Y:
+                pointList.append((i,j))
+        circles = mathmatic_solution(m, pointList)
         total = sum([cir.calAria() for cir in circles ])
         rate.append(total/4*100)
-    m = np.linspace(0,99,100)
+    m = np.linspace(0,19,20)
     print(m)
     print(rate)
     ax=plt.subplot(111)
