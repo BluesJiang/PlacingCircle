@@ -2,6 +2,8 @@
 
 
 import math
+import numpy as np
+from matplotlib import pyplot as plt
 
 class Circle():
     center = (0, 0) 
@@ -9,9 +11,12 @@ class Circle():
     def __init__(self, center, radius):
         self.center = center
         self.radius = radius
+
+    def calAria(self):
+        return math.pi*self.radius*self.radius
     
     def description(self):
-        return ("Center: (%f, %f)\tRadius:%.10f"%(self.center[0], self.center[1], self.radius))
+        return ("Center: (% f, % f)\tRadius:%.10f"%(self.center[0], self.center[1], self.radius))
 
 
 def sub_solution_r(m):
@@ -20,6 +25,8 @@ def sub_solution_r(m):
     circles.append(Circle((0, 0), 1))
     sym_x = [1, 1, -1, -1]
     sym_y = [1, -1, 1, -1]
+    if m == 0:
+        return []
     if m == 1:
         return circles
     elif m <= 5:
@@ -27,6 +34,8 @@ def sub_solution_r(m):
         y = x = 1 - r
         for i in range(0, 4):
             circles.append(Circle((x * sym_x[i], y * sym_y[i]), r))
+            if len(circles) == m:
+                break
         return circles
     elif m > 5:
         R1 = 3 - 2 * math.sqrt(2)
@@ -34,6 +43,7 @@ def sub_solution_r(m):
         y = x = 1 - R1
         for i in range(0, 4):
             circles.append(Circle((x * sym_x[i], y * sym_y[i]), R1))
+            
         pend_height = 0
         k = m - 5
         if k % 8 == 0:
@@ -59,10 +69,20 @@ def sub_solution_r(m):
 
 
 
-
 def main():
-    for circle in sub_solution_r(26):
-        print(circle.description())
+    rate = []
+    for m in range(0, 100):
+        circles = sub_solution_r(m)
+        
+        total = sum([cir.calAria() for cir in circles ])
+        rate.append(total/4*100)
+    m = np.linspace(0,99,100)
+    print(m)
+    print(rate)
+    ax=plt.subplot(111)
+    plt.sca(ax)
+    plt.plot(m, rate)
+    plt.show()
 
 if __name__ == '__main__':
     main()
