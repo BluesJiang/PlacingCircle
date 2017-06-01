@@ -6,7 +6,7 @@ import numpy as np
 #from matplotlib import pyplot as plt
 from tkinter import * 
 from pprint import pprint
-
+import random
 
 radius_sum = 0
 class Circle():
@@ -90,14 +90,10 @@ def sub_solution_r(m):
                 
 
 
-def mathmatic_solution(m, pointList):
-    circleList = []
+def mathmatic_solution(m, pointList, circleList = []):
     radius_sum = 0
     center_step = 0.01
-    if m >= 1:
-        circleList.append(Circle((0,0),1))
-        pointList = list(filter(lambda point: valid(Circle(point, 0), circleList) ,pointList))
-    for i in range(1, m):
+    for i in range(0, m):
         maxcircle = Circle((0,0),0)
         circle = 0
         for point in pointList:
@@ -119,6 +115,7 @@ def mathmatic_solution(m, pointList):
 
 
 def main():
+    random.seed(1)
     rate = []
     X = np.linspace(-1, 1, 201)
     Y = np.linspace(-1, 1, 201)
@@ -126,8 +123,12 @@ def main():
     for i in X:
         for j in Y:
             pointList.append((i,j))
+    circleList = []
+    for i in range(4):
+        point = (random.uniform(-1,1), random.uniform(-1,1), 0)
+        circleList.append(Circle(point, 0))
     #for m in range(0, 100):
-    circles = mathmatic_solution(100, pointList)
+    circles = mathmatic_solution(10, pointList, circleList)
     #     total = sum([cir.calAria() for cir in circles ])
     #     rate.append(total/4*100)
     # m = np.linspace(0,99,100)
