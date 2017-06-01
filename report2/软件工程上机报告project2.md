@@ -1,21 +1,24 @@
 # <center>软件工程上机实验报告</center>
 # <center>Project 2</center>
-### <center>姓名：杨晨 班级：软件工程1506班 学号：U201517138</center>
-### <center>结伴：蒋志远 软件工程1506班 学号：U20151749
+
+|姓名|学号|班级|
+|:---:|:----:|:---:|
+|蒋志远|U201517149|软工1506|
+|杨晨|U201517138|软工1506|
 ## 问题描述
-Project 2:In a box bounded by [-1, 1], given m balloons(they cannot overlap) with variable radio r and position mu. And some tiny blocks are in the box at given position {d};balloons cannot overlap with these blocks. find the optimal value of r and mu which maximizes sum r^2
+Project 2:In a box bounded by $[-1, 1]$, given $m$ balloons(they cannot overlap) with variable radio $r$ and position $mu$. And some tiny blocks are in the box at given position $d$;balloons cannot overlap with these blocks. find the optimal value of $r$ and $mu$ which maximizes sum $r^2$
 ## 算法描述以及改进过程
 ### 基本算法
 对于该问题使用数值解法。
 
-1. 首先在正方形中取1000*1000的等距点阵，作为圆心的备选点。每次放一个圆之前，遍历所有备选点，在每个备选点上将圆的半径逐渐扩大，直到该圆不再满足题目中的条件时停止。记录下符合条件的半径最大的圆对应的中心坐标和半径，并存储在一个数组中。
+1. 首先在正方形中取$1000\times1000$的等距点阵，作为圆心的备选点。每次放一个圆之前，遍历所有备选点，在每个备选点上将圆的半径逐渐扩大，直到该圆不再满足题目中的条件时停止。记录下符合条件的半径最大的圆对应的中心坐标和半径，并存储在一个数组中。
 
-2. 判断圆是否符合条件的方法：若圆超过[-1,1]边界，则不符合条件，若圆与数组中的任何一个圆有所重叠，则不符合条件。其他情况均符合条件。
+2. 判断圆是否符合条件的方法：若圆超过$[-1,1]$边界，则不符合条件，若圆与数组中的任何一个圆有所重叠，则不符合条件。其他情况均符合条件。
 
 **3.project2只需在project1的基础上，加入一个向用户请求钉子的数量和位置的步骤。然后将这些钉子视为半径为0的“圆”。将这些“圆”事先放在数组中，即可以达到题目所述要求。**
 
 ### 局部优化
-基本算法中，每次都需要遍历1000\*1000的点阵，浪费了很多时间。所以可以先将1000\*1000的点阵坐标存储在一个数组中，每次放一个圆，就将该圆中的点从点阵数组中删除，可以减少后面的循环次数。
+基本算法中，每次都需要遍历$1000\times1000$的点阵，浪费了很多时间。所以可以先将$1000\times1000$的点阵坐标存储在一个数组中，每次放一个圆，就将该圆中的点从点阵数组中删除，可以减少后面的循环次数。
 
 
 
