@@ -7,7 +7,7 @@ import numpy as np
 from tkinter import * 
 from pprint import pprint
 import random
-
+import time
 radius_sum = 0
 class Circle():
     center = (0, 0) 
@@ -115,7 +115,7 @@ def mathmatic_solution(m, pointList, circleList = []):
 
 
 def main():
-    random.seed(1)
+    random.seed(time.time())
     rate = []
     X = np.linspace(-1, 1, 201)
     Y = np.linspace(-1, 1, 201)
@@ -128,7 +128,7 @@ def main():
         point = (random.uniform(-1,1), random.uniform(-1,1), 0)
         circleList.append(Circle(point, 0))
     #for m in range(0, 100):
-    circles = mathmatic_solution(10, pointList, circleList)
+    circles = mathmatic_solution(30, pointList, circleList)
     #     total = sum([cir.calAria() for cir in circles ])
     #     rate.append(total/4*100)
     # m = np.linspace(0,99,100)
@@ -137,6 +137,7 @@ def main():
     # print(rate)
     
     root = Tk()
+    root.title("Circle with pins")
     w = Canvas(
            root,
            width = 800,
@@ -144,13 +145,23 @@ def main():
            background="white"
           )
     w.pack()
+    w.create_rectangle(100, 100, 700, 700, outline = "black")
+    i = 0
     for circle in circles:
-        point1 = circle.center[0] - circle.radius
-        point2 = circle.center[1] - circle.radius
-        point3 = circle.center[0] + circle.radius
-        point4 = circle.center[1] + circle.radius
-        w.create_oval(400 + 300 * point1, 400 + 300 * point2, 400 + 300 * point3, 400 + 300 * point4, fill = "gray")
- 
+       
+        if i < 4:
+            point1 = circle.center[0] - 0.01
+            point2 = circle.center[1] - 0.01
+            point3 = circle.center[0] + 0.01
+            point4 = circle.center[1] + 0.01
+            w.create_oval(400 + 300 * point1, 400 + 300 * point2, 400 + 300 * point3, 400 + 300 * point4, outline="red", fill="red")
+        else:
+            point1 = circle.center[0] - circle.radius
+            point2 = circle.center[1] - circle.radius
+            point3 = circle.center[0] + circle.radius
+            point4 = circle.center[1] + circle.radius
+            w.create_oval(400 + 300 * point1, 400 + 300 * point2, 400 + 300 * point3, 400 + 300 * point4, fill = "gray")
+        i += 1
     mainloop()
     
 
