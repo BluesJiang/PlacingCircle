@@ -5,6 +5,7 @@ import math
 import numpy as np
 from matplotlib import pyplot as plt
 
+circleList = []
 class Circle():
     center = (0, 0) 
     radius = 0
@@ -20,7 +21,19 @@ class Circle():
 
     def distance(circle1, circle2):
         return math.sqrt((circle1.center[0]-circle2.center[0])**2+(circle1.center[1]-circle2.center[1])**2)
+
+
+def valid(circle):
     
+    if (abs(circle.center[0]) + circle.radius > 1) || (abs(circle.center[1]) + circle.radius > 1):
+        return False
+    
+    for tmpCircle in circleList:
+        if(Circle.distance(tmpCircle, circle) < tmpCircle.radius + circle.radius):
+            return False
+    return True
+
+
 
 
 def sub_solution_r(m):
