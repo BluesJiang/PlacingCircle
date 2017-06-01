@@ -2,9 +2,9 @@
 
 
 import math
-import numpy as np
-from matplotlib import pyplot as plt
-
+#import numpy as np
+#from matplotlib import pyplot as plt
+from tkinter import * 
 
 radius_sum = 0
 class Circle():
@@ -108,7 +108,7 @@ def mathmatic_solution(m):
                     if not valid(circle, circleList):
                         circle.radius -= radius_step
                         radius_step /= 10
-        if valid(maxcircle):
+        if valid(maxcircle, circleList):
             circleList.append(maxcircle)
             radius_sum += maxcircle.radius**2
     return circleList
@@ -116,17 +116,35 @@ def mathmatic_solution(m):
 
 def main():
     rate = []
-    for m in range(0, 100):
-        circles = mathmatic_solution(10)
-        total = sum([cir.calAria() for cir in circles ])
-        rate.append(total/4*100)
-    m = np.linspace(0,99,100)
-    print(m)
-    print(rate)
-    ax=plt.subplot(111)
-    plt.sca(ax)
-    plt.plot(m, rate)
-    plt.show()
+    #for m in range(0, 100):
+    circles = mathmatic_solution(100)
+    #     total = sum([cir.calAria() for cir in circles ])
+    #     rate.append(total/4*100)
+    # m = np.linspace(0,99,100)
+    # print(m)
+    #print(m)
+    # print(rate)
+    
+    root = Tk()
+    w = Canvas(
+           root,
+           width = 800,
+           height = 800,
+           background="white"
+          )
+    w.pack()
+    for circle in circles:
+        point1 = circle.center[0] - circle.radius;
+        point2 = circle.center[1] - circle.radius;
+        point3 = circle.center[0] + circle.radius;
+        point4 = circle.center[1] + circle.radius;
+        w.create_oval(400 + 300 * point1, 400 + 300 * point2, 400 + 300 * point3, 400 + 300 * point4, fill = "gray");
+ 
+    mainloop()
+    # ax=plt.subplot(111)
+    # plt.sca(ax)
+    # plt.plot(m, rate)
+    # plt.show()
 
 if __name__ == '__main__':
     main()
