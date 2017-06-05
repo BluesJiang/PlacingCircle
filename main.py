@@ -28,6 +28,15 @@ class Circle():
             return math.sqrt((circle1.center[0]-circle2.center[0])**2+(circle1.center[1]-circle2.center[1])**2)
         elif point != None:
             return math.sqrt((circle1.center[0]-point[0])**2+(circle1.center[1]-point[1])**2)
+        return 0
+
+    def overlap(circle1, circle2=None, point=None):
+        if circle2 != None:
+            return Circle.distance(circle1, circle2) < (circle1.radius+circle2.radius)
+        elif point != None:
+            return Circle.distance(circle1, point=point) < circle1.radius
+        return False
+    
     def copy(self):
         return Circle(self.center, self.radius)
 
@@ -44,9 +53,9 @@ def valid(circle, circleList):
 
 def maxValidRadius(center, circleList):
     res = 0
-    res = min([math.fabs(center[0]+1), math.fabs(center[0]-1), math.fabs(center[1]+1), math.fabs(center[1]-1)])
+    res = min(map(math.fabs,[center[0]+1, center[0]-1, center[1]+1, center[1]-1]))
     for circle in circleList:
-        dis = Circle.distance(circle, point=center)-circle.radius
+        dis = Circle.distance(circle, point=center) - circle.radius
         if dis < res:
             res = dis
     return res
@@ -61,21 +70,15 @@ def sub_solution_r(m):
         return []
     if m == 1:
         return circles
-    elif m <= 5:
-        r = 3 - 2 * math.sqrt(2)
-        y = x = 1 - r
-        for i in range(0, 4):
-            circles.append(Circle((x * sym_x[i], y * sym_y[i]), r))
-            if len(circles) == m:
-                break
-        return circles
-    elif m > 5:
+    if m > 1:
         R1 = 3 - 2 * math.sqrt(2)
         R.append(R1)
         y = x = 1 - R1
         for i in range(0, 4):
             circles.append(Circle((x * sym_x[i], y * sym_y[i]), R1))
-            
+            if len(circles) == m:
+                break
+    if m > 5:
         pend_height = 0
         k = m - 5
         if k % 8 == 0:
@@ -85,7 +88,6 @@ def sub_solution_r(m):
         pend_current = R[1]
         for i in range(1, k+1): 
             r = ((1 - pend_current)/ (2 * (1+math.sqrt(R[i])))) ** 2
-            
             pend_current += 2 * math.sqrt(r * R[i])
             R.append(r)
             x = 1 - r
@@ -97,7 +99,7 @@ def sub_solution_r(m):
                 circles.append(Circle((y * sym_y[j], x * sym_x[j]), r))
                 if len(circles) == m:
                     break
-        return circles
+    return circles
                 
 
 
@@ -122,7 +124,7 @@ def mathmatic_solution(m, pointList, circleList = []):
         circleList.append(maxcircle)
         # radius_sum += maxcircle.radius**2
         # pointList = list(filter(lambda point: valid(Circle(point, 0), circleList) ,pointList))
-        pointList = list(filter(lambda point: (Circle.distance(maxcircle, point=point) > maxcircle.radius) , pointList))
+        pointList = list(filter(lambda point: Circle.distance(maxcircle, point=point) > maxcircle.radius , pointList))
 
     return circleList
 
@@ -142,7 +144,7 @@ def main():
         circleList.append(Circle(point, 0))
     #for m in range(0, 100):
     start = datetime.now().timestamp()
-    circles = mathmatic_solution(100, pointList, circleList)
+    circles = mathmatic_solution(30, pointList, circleList)
     # circles = sub_solution_r(100)
     end = datetime.now().timestamp()
     print("gap:"+str(end-start))
@@ -166,7 +168,7 @@ def main():
     i = 0
     for circle in circles:
        
-        if i < 0:
+        if i < 4:
             point1 = circle.center[0] - 0.01
             point2 = circle.center[1] - 0.01
             point3 = circle.center[0] + 0.01
