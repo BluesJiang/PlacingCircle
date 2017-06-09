@@ -4,7 +4,6 @@
 |姓名|学号|班级|
 |:---:|:----:|:---:|
 |蒋志远|U201517149|软工1506|
-|杨晨|U201517138|软工1506|
 ## 问题描述
 Project 2:In a box bounded by $[-1, 1]$, given $m$ balloons(they cannot overlap) with variable radio $r$ and position $mu$. And some tiny blocks are in the box at given position $d$;balloons cannot overlap with these blocks. find the optimal value of $r$ and $mu$ which maximizes sum $r^2$
 ## 算法描述以及改进过程
@@ -46,31 +45,30 @@ class Circle():
         		   +(circle1.center[1]-circle2.center[1])**2)
     def copy(self):
         return Circle(self.center, self.radius)
-        
+ def maxValidRadius(center, circleList):
+    res = 0
+    res = min(map(math.fabs,[center[0]+1, center[0]-1, 
+    						 center[1]+1, center[1]-1]))
+    for circle in circleList:
+        dis = Circle.distance(circle, point=center) - circle.radius
+        if dis < res:
+            res = dis
+    return res       
 def mathmatic_solution(m, pointList, circleList = []):
     radius_sum = 0
     center_step = 0.01
     for i in range(0, m):
-        maxcircle = Circle((0,0),0)
+        maxcircle = Circle()
         circle = 0
         for point in pointList:
-            circle = Circle(point, 0)
-            radius_step = 0.1
-            while radius_step > 1e-5:
-                if circle.radius > maxcircle.radius:
-                    maxcircle = circle.copy()
-                circle.radius += radius_step
-                if not valid(circle, circleList):
-                    circle.radius -= radius_step
-                    radius_step /= 10
-        if valid(maxcircle, circleList):
-            circleList.append(maxcircle)
-            radius_sum += maxcircle.radius**2
-        pointList = list(
-        				filter(
-        				lambda point: 
-        				valid(Circle(point, 0), circleList),
-        				pointList))
+            circle = Circle(point, maxValidRadius(point, circleList))
+            if circle.radius > maxcircle.radius:
+                maxcircle = circle.copy()
+        circleList.append(maxcircle)
+        pointList = list(filter(lambda point: 
+        							Circle.distance(maxcircle, point=point) 
+        							> maxcircle.radius,
+        						pointList))
 
     return circleList
 ```
