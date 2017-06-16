@@ -77,7 +77,7 @@ public double MaxValidRadius(double x, double y, double z) {
 
 ## 实验结果
 在macOS环境下，使用javafx绘图库，得出程序的运行结果：
-<center><img src="img/result4.png" width=275>
+<center><img src="img/result4.png" width=275></center>
 
 ## 实验总结
 1. 根据绘图结果，发现该算法的精确度并不高，因为坐标的位置只精确到小数点后两位,所以该算法只是对原问题运用了数值解法得到的一个近似解。
@@ -86,127 +86,27 @@ public double MaxValidRadius(double x, double y, double z) {
 ##附录
 ### Git log
 ```
-commit b9805791d602bdaf1e6b54436d743dcbc550d32c
+commit c12a13f3671af659be707929f46e5dcf0aa15f02
 Author: ChAnYaNG97 <790194334@qq.com>
-Date:   Thu Jun 1 17:13:48 2017 +0800
+Date:   Fri Jun 16 13:31:07 2017 +0800
 
-    add pictures
+    java version for project3
 
-commit 801f2f067a25410b7a58da98030f4194b52e1aad
-Author: ChAnYaNG97 <790194334@qq.com>
-Date:   Thu Jun 1 16:52:25 2017 +0800
-
-    add reports
-
-commit f26b0d0043b1107abbb3e29d9603c3b9fea91dd4
-Author: ChAnYaNG97 <790194334@qq.com>
-Date:   Thu Jun 1 16:50:00 2017 +0800
-
-    add reports
-
-commit 90145474f66d066a154b68a80184bffec33d41ad
+commit 6938b22c23a099983b0a7c5c8ead37fd79e78560
 Author: BluesJiang <763400095@qq.com>
-Date:   Thu Jun 1 16:48:23 2017 +0800
+Date:   Mon Jun 5 16:15:10 2017 +0800
 
-    add block
+    改进代码写法
 
-commit 78037db21cbf1a8ed5dabcaec93c87f6a3752614
-Merge: 2d98dec 21d5a13
+commit 85e7b24f94742a96d9231071d982b9df71efdae4
 Author: BluesJiang <763400095@qq.com>
-Date:   Thu Jun 1 16:33:27 2017 +0800
+Date:   Mon Jun 5 13:57:58 2017 +0800
 
-    comma conflict
+    改进加速算法
 
-commit 2d98decdae4bc292c4aaffa8bb24019e316b8b15
+commit cc276badfc702ee4b658e4d6e35d3ffa115769b8
 Author: BluesJiang <763400095@qq.com>
-Date:   Thu Jun 1 16:32:32 2017 +0800
+Date:   Thu Jun 1 20:48:54 2017 +0800
 
-    comma
-
-commit 21d5a13c0d7fb17317a2337da2d3fdb67e6e6463
-Author: ChAnYaNG97 <790194334@qq.com>
-Date:   Thu Jun 1 16:25:05 2017 +0800
-
-    delete comma
-
-commit 41ff89e80dfab167f85a3a7ec72a46bd3309ff12
-Merge: 85e80bc 74e49b3
-Author: ChAnYaNG97 <790194334@qq.com>
-Date:   Thu Jun 1 16:23:30 2017 +0800
-
-    conflict fixed
-
-commit 85e80bca92d8bab2363aac92420c59142932fd66
-Author: ChAnYaNG97 <790194334@qq.com>
-Date:   Thu Jun 1 16:14:30 2017 +0800
-
-    draw
-
-commit 74e49b3589957c380187adc3ae5191ebcd379fdc
-Author: BluesJiang <763400095@qq.com>
-Date:   Thu Jun 1 16:13:57 2017 +0800
-
-    accelerate
-
-commit 403f67663bf1b80ca336f2bb9eaaaa2572496551
-Author: BluesJiang <763400095@qq.com>
-Date:   Thu Jun 1 15:09:37 2017 +0800
-
-    fix some bug
-
-commit ec93a62e3e7d904221826f8d849e3345a021f6b0
-Merge: f5eb45d d82cba8
-Author: BluesJiang <763400095@qq.com>
-Date:   Thu Jun 1 14:54:23 2017 +0800
-
-    fix comflict
-
-commit f5eb45d86bc23f997e728682be3082a995c97438
-Author: BluesJiang <763400095@qq.com>
-Date:   Thu Jun 1 14:50:13 2017 +0800
-
-    translate addCicle
-
-commit d82cba85e78f028f3c50c9e724a9a92691d0ee8a
-Author: ChAnYaNG97 <790194334@qq.com>
-Date:   Thu Jun 1 14:46:25 2017 +0800
-
-    some corrections
-
-commit cda36f61a8aa18d7f4e4ff72883012b05a6617dc
-Author: ChAnYaNG97 <790194334@qq.com>
-Date:   Thu Jun 1 14:44:58 2017 +0800
-
-    implement the valid() function
-
-commit 65f387a5482643e791efe8374bc684574f2f2681
-Author: BluesJiang <763400095@qq.com>
-Date:   Thu Jun 1 14:32:17 2017 +0800
-
-    add distance
-
-commit 9e9c441469f16ee13c8797c1fb0817bc846a0eb2
-Author: BluesJiang <763400095@qq.com>
-Date:   Thu Jun 1 11:43:50 2017 +0800
-
-    fix when m < 3 ,result goes wrong
-
-commit 834494816cb0729923c505ecef89a2ee0131e7bd
-Author: BluesJiang <763400095@qq.com>
-Date:   Thu Jun 1 10:56:47 2017 +0800
-
-    bug fixed
-
-commit 017a074fc3b1b28dc07fd1314ae2fb13aa485ecd
-Author: BluesJiang <763400095@qq.com>
-Date:   Thu Jun 1 10:30:55 2017 +0800
-
-    clear the formula
-
-commit c851ac95780a02f307bbac35886900cb99cc4af2
-Author: BluesJiang <763400095@qq.com>
-Date:   Fri May 5 20:45:27 2017 +0800
-
-    sub_solution
-
+    modified for good looking
 ```
