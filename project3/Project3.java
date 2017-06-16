@@ -3,6 +3,9 @@
  */
 import java.util.*;
 import java.math.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 public class Project3 {
     public double step = 0.01;
     public final int CIRCLE_NUM = 50;
@@ -38,6 +41,11 @@ public class Project3 {
             this.z = z;
 
         }
+        Point(Point point) {
+            x = point.x;
+            y = point.y;
+            z = point.z;
+        }
     }
 
     public class Circle {
@@ -50,10 +58,39 @@ public class Project3 {
         }
     }
 
+    public class JobThread extends Thread {
+        List<Point> centerList = null;
+        Circle maxCircle = null;
+        JobThread(List<Point> list) {
+            centerList = list;
+        }
+        @Override
+        public void run() {
+            Point center = null;
+            double maxRadius = 0;
+            for (Point point: centerList) {
+                double tmp = MaxValidRadius(point);
+                if (maxRadius < tmp) {
+                    maxRadius = tmp;
+                    center = new Point(point);
+                }
+            }
+            maxCircle = new Circle(center, maxRadius);
+
+        }
+
+
+    }
+
 
     public double distance(Circle c1, Circle c2) {
 
         return Math.sqrt(Math.pow(c1.center.x - c2.center.x, 2) + Math.pow(c1.center.y - c2.center.y, 2) + Math.pow(c1.center.z - c2.center.z, 2));
+    }
+
+    public double distance(Circle c, Point p) {
+
+        return Math.sqrt(Math.pow(c.center.x - p.x, 2) + Math.pow(c.center.y - p.y, 2) + Math.pow(c.center.z - p.z, 2));
     }
 
     public void PlacePin(int num) {
@@ -64,7 +101,10 @@ public class Project3 {
         }
     }
 
-    public double MaxValidRadius(double x, double y, double z) {//找出(x,y,z)点处的最大半径
+    public double MaxValidRadius(Point point) {//找出(x,y,z)点处的最大半径
+        double x = point.x;
+        double y = point.y;
+        double z = point.z;
         ArrayList<Double> radiusList = new ArrayList<>();
         radiusList.add(Math.abs(x + 1));
         radiusList.add(Math.abs(x - 1));
@@ -101,27 +141,54 @@ public class Project3 {
     }
 
     public void PlaceCircle() {
+        final int THREAD_COUNT = 8;
         double radius = 0;
         double max_radius = 0;
         Point point = new Point(0, 0, 0);
-
-        for (Point center : centerList) {
-            radius = MaxValidRadius(center.x, center.y, center.z);
-            if (radius > max_radius) {
-
-                max_radius = radius;
-                point.x = center.x;
-                point.y = center.y;
-                point.z = center.z;
-            }
-
+        ArrayList<JobThread> threads = new ArrayList<>();
+        int len = centerList.size();
+        int subLen = len/THREAD_COUNT;
+        for (int i = 0; i < THREAD_COUNT; i++) {
+            JobThread thread = new JobThread(centerList.subList(i*subLen,i*subLen+subLen >= len ? len-1 : i*subLen+subLen-1 ));
+            threads.add(thread);
+            thread.start();
         }
+
+        for (JobThread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            }
+        }
+        for (JobThread thread : threads) {
+            if (max_radius < thread.maxCircle.radius) {
+                max_radius = thread.maxCircle.radius;
+                point = new Point(thread.maxCircle.center);
+            }
+        }
+
+//        for (Point center : centerList) {
+//            radius = MaxValidRadius(center);
+//            if (radius > max_radius) {
+//
+//                max_radius = radius;
+//                point.x = center.x;
+//                point.y = center.y;
+//                point.z = center.z;
+//            }
+//
+//        }
         Circle current = new Circle(point, max_radius);
         circleList.add(current);
-        System.out.println("x:" + point.x);
-        System.out.println("y:" + point.y);
-        System.out.println("z:" + point.z);
-        System.out.println(max_radius);
+        ArrayList<Point> filterdlist = centerList.stream()
+                .filter(p -> distance(current, p) > current.radius)
+                .collect(Collectors.toCollection(ArrayList::new));
+        centerList = filterdlist;
+//        System.out.println("x:" + point.x);
+//        System.out.println("y:" + point.y);
+//        System.out.println("z:" + point.z);
+//        System.out.println(max_radius);
 
 //        for(Point center : centerList) {
 //            if(distance(new Circle(center, 0), new Circle(point, 0)) < max_radius){
@@ -134,6 +201,7 @@ public class Project3 {
     public void start(int num) {
         for (int i = 0; i < num; i++) {
             PlaceCircle();
+            System.out.println(i);
         }
     }
 
