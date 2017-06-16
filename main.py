@@ -128,7 +128,6 @@ def mathmatic_solution(m, pointList, circleList = []):
 
     return circleList
 
-
 def main():
     random.seed(time.time())
     rate = []
