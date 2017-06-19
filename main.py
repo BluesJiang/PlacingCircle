@@ -13,7 +13,7 @@ radius_sum = 0
 class Circle():
     center = (0, 0) 
     radius = 0
-    def __init__(self, center, radius):
+    def __init__(self, center=(0,0), radius=0):
         self.center = center
         self.radius = radius
 
@@ -63,7 +63,7 @@ def maxValidRadius(center, circleList):
 def sub_solution_r(m):
     circles = []
     R = [1]
-    circles.append(Circle((0, 0), 1))
+    circles.append(Circle(radius=1))
     sym_x = [1, 1, -1, -1]
     sym_y = [1, -1, 1, -1]
     if m == 0:
@@ -107,7 +107,7 @@ def mathmatic_solution(m, pointList, circleList = []):
     radius_sum = 0
     center_step = 0.01
     for i in range(0, m):
-        maxcircle = Circle((0,0),0)
+        maxcircle = Circle()
         circle = 0
         for point in pointList:
             circle = Circle(point, maxValidRadius(point, circleList))
@@ -132,21 +132,21 @@ def main():
     random.seed(time.time())
     rate = []
     X = np.linspace(-1, 1, 201)
-    Y = np.linspace(-1, 1, 201)
     pointList = []
     for i in X:
-        for j in Y:
+        for j in X:
             pointList.append((i,j))
     circleList = []
     for i in range(4):
         point = (random.uniform(-1,1), random.uniform(-1,1), 0)
-        circleList.append(Circle(point, 0))
+        circleList.append(Circle(point))
     #for m in range(0, 100):
     start = datetime.now().timestamp()
     circles = mathmatic_solution(30, pointList, circleList)
     # circles = sub_solution_r(100)
     end = datetime.now().timestamp()
     print("gap:"+str(end-start))
+    # pprint(list(map(Circle.description, circles)))
     #     total = sum([cir.calAria() for cir in circles ])
     #     rate.append(total/4*100)
     # m = np.linspace(0,99,100)
@@ -166,19 +166,17 @@ def main():
     w.create_rectangle(100, 100, 700, 700, outline = "black")
     i = 0
     for circle in circles:
-       
-        if i < 4:
-            point1 = circle.center[0] - 0.01
-            point2 = circle.center[1] - 0.01
-            point3 = circle.center[0] + 0.01
-            point4 = circle.center[1] + 0.01
-            w.create_oval(400 + 300 * point1, 400 + 300 * point2, 400 + 300 * point3, 400 + 300 * point4, outline="red", fill="red")
-        else:
-            point1 = circle.center[0] - circle.radius
-            point2 = circle.center[1] - circle.radius
-            point3 = circle.center[0] + circle.radius
-            point4 = circle.center[1] + circle.radius
-            w.create_oval(400 + 300 * point1, 400 + 300 * point2, 400 + 300 * point3, 400 + 300 * point4, fill = "gray")
+        fill = "gray"
+        outline = "black"
+        if i < 0:
+            circle.radius = 0.01
+            outline = "red"
+            fill = "red"
+        point1 = circle.center[0] - circle.radius
+        point2 = circle.center[1] - circle.radius
+        point3 = circle.center[0] + circle.radius
+        point4 = circle.center[1] + circle.radius
+        w.create_oval(400 + 300 * point1, 400 + 300 * point2, 400 + 300 * point3, 400 + 300 * point4, fill = fill, outline=outline)
         i += 1
     mainloop()
     
