@@ -64,7 +64,7 @@ public class Project3 {
         JobThread(List<Point> list) {
             centerList = list;
         }
-        
+
         @Override
         public void run() {
             Point center = null;
@@ -142,16 +142,13 @@ public class Project3 {
     }
 
     public void PlaceCircle() {
-        final int THREAD_COUNT = 4;
+        final int THREAD_COUNT = 8;
         double radius = 0;
         double max_radius = 0;
         Point point = new Point(0, 0, 0);
-        
         ArrayList<JobThread> threads = new ArrayList<>();
-        
         int len = centerList.size();
         int subLen = len/THREAD_COUNT;
-        
         for (int i = 0; i < THREAD_COUNT; i++) {
             JobThread thread = new JobThread(centerList.subList(i*subLen,i*subLen+subLen >= len ? len-1 : i*subLen+subLen-1 ));
             threads.add(thread);
